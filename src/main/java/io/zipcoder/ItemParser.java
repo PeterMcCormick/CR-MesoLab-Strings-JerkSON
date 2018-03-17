@@ -10,12 +10,13 @@ public class ItemParser {
     Matcher matcher;
     Integer countExceptionsThrown = 0;
 
-
+    HashMap<HashMap<String, ArrayList<Double>>, Integer> namePriceOccurence = new HashMap<>();
+    public HashMap<String, ArrayList<Double>> namePrice;
 
     private ArrayList<String> splitStringWithRegexPattern(String stringPattern, String inputString){
         return new ArrayList<String>(Arrays.asList(inputString.split(stringPattern)));
     }
-    //Splits string
+
     public ArrayList<String> parseRawDataIntoStringArray(String rawData){
         String stringPattern = "##";
         ArrayList<String> response = splitStringWithRegexPattern(stringPattern , rawData);
@@ -39,29 +40,28 @@ public class ItemParser {
         Double price = Double.valueOf(checkPrice(rawItem));
         String type = checkType(rawItem);
         String expiration = checkExpiration(rawItem);
-
+       // getNamePrice(name, price);
         return new Item(name, price, type, expiration);
 
     }
     public ArrayList<String> findKeyValuePairsInRawItemData(String rawItem){
-        String stringPattern = "[@|;|^|%|*|%]";
+        String stringPattern = "[@|;|^|%|*]";
         ArrayList<String> response = splitStringWithRegexPattern(stringPattern , rawItem);
         return response;
     }
 
-    public String fixCookie(String input) {
-        Pattern patternCookies = Pattern.compile("[Cc][oO0][oO0][kK][iI][eE][sS]");
-        Matcher matcherCookie = patternCookies.matcher(input);
-        return matcherCookie.replaceAll("cookies");
-    }
+
 
     public String checkName(String input) throws ItemParseException{
 
-        String newInput = fixCookie(input);
-        Pattern patternName = Pattern.compile("([Nn]..[Ee]:)(\\w+)");
+        Pattern patternName = Pattern.compile("([Nn]..[Ee]:)([a-zA-Z\\s|\\d|\\-|_]+)");
+
         Matcher matcherName = patternName.matcher(input);
 
         if(matcherName.find())
+            if (matcherName.group(2).contains("0"))
+                return matcherName.group(2).replace('0', 'o');
+            else
             return matcherName.group(2).toLowerCase();
         else {
             countExceptionsThrown++;
@@ -71,7 +71,7 @@ public class ItemParser {
     }
 
     public String checkPrice(String input) throws ItemParseException{
-        Pattern patternPrice = Pattern.compile("([Pp]...[Ee]:)(\\d\\.\\d{2})");
+        Pattern patternPrice = Pattern.compile("([Pp]...[Ee]:)(\\d{1,6}\\.\\d{2})");
         Matcher matcherPrice = patternPrice.matcher(input);
 
         if(matcherPrice.find())
@@ -96,7 +96,7 @@ public class ItemParser {
     }
 
     public String checkExpiration(String input) throws ItemParseException {
-        Pattern patternExpiration = Pattern.compile("([Ee]........[Nn]:)(\\d\\/\\d{2}\\/\\d{4})");
+        Pattern patternExpiration = Pattern.compile("([Ee]........[Nn]:)(\\d{1,2}\\/\\d{2}\\/\\d{4})");
         Matcher matcherExpiration = patternExpiration.matcher(input);
 
         if(matcherExpiration.find())
@@ -105,36 +105,53 @@ public class ItemParser {
             countExceptionsThrown++;
             throw new ItemParseException();
         }
-
     }
 
 
+    public void getNamePrice(String name, Double price) {
+        if (!namePrice.containsKey(name)) {
+            namePrice.put(name, new ArrayList<>());
+            namePrice.get(name).add(price);
+        } else {
+            namePrice.get(name).add(price);
+        }
+    }
+
+    public void countPriceOccurrence(HashMap namePrice) {
+        int count = 0;
+        for (Object entry : namePrice.values()) {
+            ArrayList<Double> prices = (ArrayList<Double>)entry;
+            for(Double price : prices) {
+                getNumberOfOccurrences(prices, price);
+            }
+        }
+    }
+
+    public int getNumberOfOccurrences(ArrayList<Double> list, Double valueToCheck) {
+        int counter = 0;
+        for(Double price : list) {
+            if(price == valueToCheck) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+public static void main(String[]args){
+        HashMap<String, ArrayList<Double>> map = new HashMap<>();
+        String item = "Milk";
+        ArrayList<Double> prices = new ArrayList<>();
+
+        Double one = 2.15;
+        Double two = 3.15;
+
+        prices.add(one);
+        prices.add(two);
+
+        map.put(item, prices);
+        ItemParser itemParser = new ItemParser();
+        itemParser.countPriceOccurrence(map);
+    }
+
 
 }
-
-
-
-
-//    int count = 0;
-//
-//    ArrayList<Item> myItem = new ArrayList<>();
-//
-//    String name = "(N|n)..(E|e)";
-//    String strPrice = "\\d\\.\\d\\d";
-//    Double price = Double.valueOf(strPrice);
-//    String type = "(T|t)..(E|e)";
-//    String expiration = "(E|e)........(N|n)";
-//    ArrayList<String> temp = parseRawDataIntoStringArray(rawItem);
-//
-//        for (int i = 0; i < temp.size(); i++) {
-//        if (findKeyValuePairsInRawItemData(temp.get(i)).equals(null))  {
-//        count++;
-//        throw new ItemParseException();
-//        }
-//        else if (findKeyValuePairsInRawItemData(temp.get(i)).size() == 4) {
-//        for (int j = 0; j < temp.size() ; j++) {
-//        findKeyValuePairsInRawItemData(temp.get(i));
-//        }
-//        }
-//        }
-//        return new Item (name, price, type, expiration);

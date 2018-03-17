@@ -9,8 +9,8 @@ import java.util.HashMap;
 
 public class Main {
 
-    public HashMap<String, ArrayList<Double>> namePrice;
-    HashMap<HashMap<String, ArrayList<Double>>, Integer> namePriceOccurence = new HashMap<>();
+
+
 
     public String readRawDataToString() throws Exception{
         ClassLoader classLoader = getClass().getClassLoader();
@@ -23,16 +23,7 @@ public class Main {
         System.out.println(output);
         // TODO: parse the data in output into items, and display to console.
 
-
     }
 
-    public HashMap getNamePrice(String name, Double price) {
 
-        if (!namePrice.containsKey(name)) {
-            namePrice.put(name, new ArrayList<>());
-            namePrice.get(name).add(price);
-        } else {
-            namePriceOccurence.put(namePriceOccurence.containsKey(;
-        }
-    }
 }

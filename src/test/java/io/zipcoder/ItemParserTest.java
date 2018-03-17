@@ -43,6 +43,15 @@ public class ItemParserTest {
     public void parseStringIntoItemTest() throws ItemParseException {
         Item expected = new Item("milk", 3.23, "food", "1/25/2016");
         Item actual = itemParser.parseStringIntoItem(rawSingleItem);
+        System.out.println(actual);
+        assertEquals(expected.toString(), actual.toString());
+    }
+
+    @Test
+    public void parseStringIntoItemTest1() throws ItemParseException {
+        Item expected = new Item("root-_beer", 232321.34, "drink", "12/23/2019");
+        Item actual = itemParser.parseStringIntoItem("NAME:ro0t-_beer;pRICE:232321.34;type:dRiNK;expiration:12/23/2019");
+        System.out.println(actual.toString());
         assertEquals(expected.toString(), actual.toString());
     }
 
@@ -71,4 +80,5 @@ public class ItemParserTest {
         Integer actual = itemParser.getExceptionsThrown(getRawMultipleBrokenItems);
         assertEquals(expected, actual);
     }
+
 }
