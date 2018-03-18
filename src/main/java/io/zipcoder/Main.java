@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class Main {
 
-
+    ItemParser hurtLocker;
 
 
     public String readRawDataToString() throws Exception{
@@ -21,6 +21,8 @@ public class Main {
     public static void main(String[] args) throws Exception{
         String output = (new Main()).readRawDataToString();
         System.out.println(output);
+
+
         // TODO: parse the data in output into items, and display to console.
 
     }
