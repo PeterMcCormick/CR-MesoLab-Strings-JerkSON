@@ -120,7 +120,6 @@ public class ItemParser {
     public HashMap getPriceOccurrence(HashMap namePrice, String name) {
 
         ArrayList<Double> prices = (ArrayList<Double>) namePrice.get(name);
-        System.out.println(prices);
         for (int i = 0; i < prices.size(); i++) {
             double price = prices.get(i);
             if (!priceOccurrence.containsKey(prices.get(i))) {
@@ -137,27 +136,27 @@ public class ItemParser {
     }
 
 
-    public static void main(String[] args) {
-        HashMap<String, ArrayList<Double>> map = new HashMap<>();
-        String item = "Milk";
-        ArrayList<Double> prices = new ArrayList<>();
-
-        Double one = 2.15;
-        Double two = 3.15;
-        Double three = 3.21;
-        Double four = 2.45;
-
-        prices.add(one);
-        prices.add(two);
-        prices.add(three);
-        prices.add(four);
-
-        map.put(item, prices);
-        ItemParser itemParser = new ItemParser();
-
-        System.out.println(itemParser.getPriceOccurrence(map, item));
-
-    }
+//    public static void main(String[] args) {
+//        HashMap<String, ArrayList<Double>> map = new HashMap<>();
+//        String item = "Milk";
+//        ArrayList<Double> prices = new ArrayList<>();
+//
+//        Double one = 2.15;
+//        Double two = 3.15;
+//        Double three = 3.21;
+//        Double four = 2.45;
+//
+//        prices.add(one);
+//        prices.add(two);
+//        prices.add(three);
+//        prices.add(four);
+//
+//        map.put(item, prices);
+//        ItemParser itemParser = new ItemParser();
+//
+//        System.out.println(itemParser.getPriceOccurrence(map, item));
+//
+//    }
 
 
 }
