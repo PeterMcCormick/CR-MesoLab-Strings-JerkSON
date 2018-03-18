@@ -74,11 +74,11 @@ public class ItemParserTest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    public void countExceptionTest() {
-        Integer expected = 3;
-        Integer actual = itemParser.getExceptionsThrown(getRawMultipleBrokenItems);
-        assertEquals(expected, actual);
-    }
+//    @Test
+//    public void countExceptionTest() {
+//        Integer expected = 3;
+//        Integer actual = itemParser.getExceptionsThrown(getRawMultipleBrokenItems);
+//        assertEquals(expected, actual);
+//    }
 
 }

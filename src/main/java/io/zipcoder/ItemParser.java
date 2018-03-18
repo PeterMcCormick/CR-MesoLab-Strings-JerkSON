@@ -10,7 +10,7 @@ public class ItemParser {
     Matcher matcher;
     Integer countExceptionsThrown = 0;
 
-    HashMap<Double, Integer> priceOccurrence = new HashMap<>();
+    HashMap<Double, Integer> priceOccurrence;
     HashMap<String, ArrayList<Double>> namePrice = new HashMap<>();
 
     private ArrayList<String> splitStringWithRegexPattern(String stringPattern, String inputString) {
@@ -23,14 +23,8 @@ public class ItemParser {
         return response;
     }
 
-    public Integer getExceptionsThrown(String rawData) {
+    public Integer getExceptionsThrown() {
 
-        ArrayList<String> parsedRawData = parseRawDataIntoStringArray(rawData);
-        for (int i = 0; i < parsedRawData.size(); i++)
-            try {
-                parseStringIntoItem(parsedRawData.get(i));
-            } catch (ItemParseException e) {
-            }
         return this.countExceptionsThrown;
     }
 
@@ -58,11 +52,13 @@ public class ItemParser {
 
         Matcher matcherName = patternName.matcher(input);
 
-        if (matcherName.find())
-            if (matcherName.group(2).contains("0"))
-                return matcherName.group(2).replace('0', 'o');
-            else
-                return matcherName.group(2).toLowerCase();
+        if (matcherName.find()) {
+            String temp = matcherName.group(2).substring(0, 1).toUpperCase() +
+                    matcherName.group(2).substring(1).toLowerCase();
+            if (temp.contains("0"))
+                return temp.replace('0', 'o');
+            return temp;
+        }
         else {
             countExceptionsThrown++;
             throw new ItemParseException();
@@ -117,9 +113,9 @@ public class ItemParser {
         }
     }
 
-    public HashMap getPriceOccurrence(HashMap namePrice, String name) {
-
-        ArrayList<Double> prices = (ArrayList<Double>) namePrice.get(name);
+    public HashMap<Double, Integer> getPriceOccurrence(String name) {
+        ArrayList<Double> prices = namePrice.get(name);
+        priceOccurrence = new HashMap<>();
         for (int i = 0; i < prices.size(); i++) {
             double price = prices.get(i);
             if (!priceOccurrence.containsKey(prices.get(i))) {
@@ -136,7 +132,10 @@ public class ItemParser {
     }
 
 
-//    public static void main(String[] args) {
+   public static void main(String[] args) {
+       ItemParser itemParser = new ItemParser();
+       System.out.println(itemParser.getExceptionsThrown());
+   }
 //        HashMap<String, ArrayList<Double>> map = new HashMap<>();
 //        String item = "Milk";
 //        ArrayList<Double> prices = new ArrayList<>();
