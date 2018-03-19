@@ -45,7 +45,7 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         for (String item : groceryAccountedFor) {
             int timesSeen = hurtLocker.namePrice.get(item).size();
-            sb.append(String.format("name:%8s        seen:%2d %s \n", item, timesSeen, timeOrTimes(timesSeen)));
+            sb.append(String.format("name:%8s        seen:%2d %s\n", item, timesSeen, timeOrTimes(timesSeen)));
             sb.append(String.format("=============        =============\n"));
             sb.append(countOccurrences(item));
             sb.append("\n");
@@ -58,10 +58,13 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         HashMap<Double, Integer> priceOccurrence = hurtLocker.getPriceOccurrence(item);
         Iterator<Double> itemPriceIterator = priceOccurrence.keySet().iterator();
+        int count = 0;
         while (itemPriceIterator.hasNext()) {
+            count++;
             Double price = itemPriceIterator.next();
             sb.append(String.format("Price:%7.2f        seen:%2d %s\n", price, priceOccurrence.get(price), timeOrTimes(priceOccurrence.get(price))));
-            if (itemPriceIterator.hasNext()) sb.append(String.format("-------------        -------------\n"));
+            if (itemPriceIterator.hasNext() && count > 1) sb.append(String.format("-------------        -------------\n"));
+            if (count == 1) sb.append(String.format("-------------        -------------\n"));
         }
         return sb.toString();
     }
