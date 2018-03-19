@@ -126,36 +126,7 @@ public class ItemParser {
         }
         return priceOccurrence;
     }
-
     public HashMap<String, ArrayList<Double>> getNamePrice() {
         return namePrice;
     }
-
-
-   public static void main(String[] args) {
-       ItemParser itemParser = new ItemParser();
-       System.out.println(itemParser.getExceptionsThrown());
-   }
-//        HashMap<String, ArrayList<Double>> map = new HashMap<>();
-//        String item = "Milk";
-//        ArrayList<Double> prices = new ArrayList<>();
-//
-//        Double one = 2.15;
-//        Double two = 3.15;
-//        Double three = 3.21;
-//        Double four = 2.45;
-//
-//        prices.add(one);
-//        prices.add(two);
-//        prices.add(three);
-//        prices.add(four);
-//
-//        map.put(item, prices);
-//        ItemParser itemParser = new ItemParser();
-//
-//        System.out.println(itemParser.getPriceOccurrence(map, item));
-//
-//    }
-
-
 }

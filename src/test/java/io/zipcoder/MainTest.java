@@ -99,6 +99,29 @@ public class MainTest {
                 "\n" +
                 "Errors         \t \t seen: 4 times\n";
 
+        String maybe = "name:    Milk        seen: 6 times\n" +
+                "=============        =============\n" +
+                "Price:   3.23        seen: 5 times\n" +
+                "-------------        -------------\n" +
+                "Price:   1.23        seen: 1 time\n" +
+                "\n" +
+                "name:   Bread        seen: 6 times\n" +
+                "=============        =============\n" +
+                "Price:   1.23        seen: 6 times\n" +
+                "-------------        -------------\n" +
+                "\n" +
+                "name: Cookies        seen: 8 times\n" +
+                "=============        =============\n" +
+                "Price:   2.25        seen: 8 times\n" +
+                "-------------        -------------\n" +
+                "\n" +
+                "name:  Apples        seen: 4 times\n" +
+                "=============        =============\n" +
+                "Price:   0.25        seen: 2 times\n" +
+                "-------------        -------------\n" +
+                "Price:   0.23        seen: 2 times\n" +
+                "\n" +
+                "Errors               seen: 4 times";
         String actual = mainTest.readRawDataToString("RawData.txt");
 
 
@@ -182,6 +205,7 @@ public class MainTest {
                 "\n" +
                 "Errors               seen: 5 times\n";
         String actual = mainTest.readRawDataToString("TestData.txt");
+        System.out.println(actual);
         Assert.assertEquals(expected, actual);
 
     }
